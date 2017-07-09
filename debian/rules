@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+-include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
+
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-z,defs -Wl,-O1 -Wl,--as-needed
+
+%:
+	dh $@ --with autoreconf,gnome
+
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+CONFFLAGS = --enable-systemd
+else
+CONFFLAGS = --disable-systemd
+endif
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--localstatedir=/var/lib \
+		--libexecdir=/usr/lib/gnome-session \
+		--enable-ipv6 \
+		$(CONFFLAGS)

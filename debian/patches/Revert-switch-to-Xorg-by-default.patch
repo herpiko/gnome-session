@@ -1,0 +1,91 @@
+From 2a16770ede45fbc187eda9e2d9dfe2741308e11a Mon Sep 17 00:00:00 2001
+From: Andreas Henriksson <andreas.henriksson@endian.se>
+Date: Fri, 25 Mar 2016 14:03:11 +0100
+Subject: [PATCH] Revert switch to Xorg by default
+
+This reverts commit e43b4d0dd1f79b43231ebbbdc2375ccf16035494
+and commit 101dc244a6f77acbae1c5c2e60665810ed295476
+
+We'll stick with Wayland as default in Debian testing/unstable.
+
+We're targeting GNOME 3.22 for Debian Stretch and GNOME 3.22 is
+targeting Wayland-by-default, so it makes sense to get as much runtime
+and feedback as possible during the development cycle up to Stretch
+release instead of only switching over just before Stretch release.
+---
+ data/Makefile.am              | 4 ++--
+ data/gnome-wayland.desktop.in | 8 --------
+ data/gnome-xorg.desktop.in    | 8 ++++++++
+ po/POTFILES.in                | 2 +-
+ 4 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 data/gnome-wayland.desktop.in
+ create mode 100644 data/gnome-xorg.desktop.in
+
+diff --git a/data/Makefile.am b/data/Makefile.am
+index 410988e..a171dfc 100644
+--- a/data/Makefile.am
++++ b/data/Makefile.am
+@@ -12,7 +12,7 @@ hwcompatdir = $(pkgdatadir)
+ hwcompat_DATA = hardware-compatibility
+ 
+ xsessiondir = $(datadir)/xsessions
+-xsession_in_files = gnome.desktop.in
++xsession_in_files = gnome.desktop.in gnome-xorg.desktop.in
+ 
+ if BUILD_SESSION_SELECTOR
+ xsession_in_files += gnome-custom-session.desktop.in
+@@ -21,7 +21,7 @@ endif
+ xsession_DATA = $(xsession_in_files:.desktop.in=.desktop)
+ 
+ wayland_sessiondir = $(datadir)/wayland-sessions
+-wayland_session_in_files = gnome-wayland.desktop.in
++wayland_session_in_files = gnome.desktop.in
+ wayland_session_DATA = $(wayland_session_in_files:.desktop.in=.desktop)
+ 
+ sessiondir = $(datadir)/gnome-session/sessions
+diff --git a/data/gnome-wayland.desktop.in b/data/gnome-wayland.desktop.in
+deleted file mode 100644
+index 852be87..0000000
+--- a/data/gnome-wayland.desktop.in
++++ /dev/null
+@@ -1,8 +0,0 @@
+-[Desktop Entry]
+-_Name=GNOME on Wayland
+-_Comment=This session logs you into GNOME
+-Exec=gnome-session
+-TryExec=gnome-session
+-Icon=
+-Type=Application
+-DesktopNames=GNOME
+diff --git a/data/gnome-xorg.desktop.in b/data/gnome-xorg.desktop.in
+new file mode 100644
+index 0000000..d00b3dc
+--- /dev/null
++++ b/data/gnome-xorg.desktop.in
+@@ -0,0 +1,8 @@
++[Desktop Entry]
++_Name=GNOME on Xorg
++_Comment=This session logs you into GNOME
++Exec=gnome-session
++TryExec=gnome-session
++Icon=
++Type=Application
++DesktopNames=GNOME
+diff --git a/po/POTFILES.in b/po/POTFILES.in
+index 61a756b..7688264 100644
+--- a/po/POTFILES.in
++++ b/po/POTFILES.in
+@@ -2,9 +2,9 @@
+ # Please keep this file sorted alphabetically.
+ data/gnome-custom-session.desktop.in
+ data/gnome.desktop.in
++data/gnome-xorg.desktop.in
+ data/gnome-dummy.session.desktop.in.in
+ data/gnome.session.desktop.in.in
+-data/gnome-wayland.desktop.in
+ [type: gettext/glade]data/session-selector.ui
+ [type: gettext/glade]data/session-properties.ui
+ gnome-session/gsm-fail-whale-dialog.c
+-- 
+2.7.0
+

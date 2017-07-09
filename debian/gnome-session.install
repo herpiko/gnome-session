@@ -1,0 +1,4 @@
+usr/share/doc
+usr/share/xsessions/*.desktop
+usr/share/gnome-session/sessions/gnome.session
+usr/share/wayland-sessions/*.desktop
