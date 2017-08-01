@@ -1,0 +1,40 @@
+From 7e307f8ddb91db5d4051c4c792519a660ba67f35 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Thu, 5 Jan 2017 10:02:58 -0500
+Subject: gnome-session: make sure wayland sessions get a login shell
+
+Users expect their shell profiles to get sourced at startup, which
+doesn't happen with wayland sessions.
+
+This commit brings back that feature, by making the gnome-session
+wrapper script run a login shell.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=736660
+---
+ gnome-session/gnome-session.in | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/gnome-session/gnome-session.in b/gnome-session/gnome-session.in
+index fdf7163..ce63df5 100644
+--- a/gnome-session/gnome-session.in
++++ b/gnome-session/gnome-session.in
+@@ -1,5 +1,18 @@
+ #!/bin/sh
+ 
++if [ "x$XDG_SESSION_TYPE" = "xwayland" ] &&
++   [ "x$XDG_SESSION_CLASS" != "xgreeter" ] &&
++   [  -n "$SHELL" ] &&
++   grep -q "$SHELL" /etc/shells &&
++   ! (echo "$SHELL" | grep -q "false") &&
++   ! (echo "$SHELL" | grep -q "nologin"); then
++  if [ "$1" != '-l' ]; then
++    exec bash -c "exec -l '$SHELL' -c '$0 -l $*'"
++  else
++    shift
++  fi
++fi
++
+ SETTING=$(gsettings get org.gnome.system.locale region)
+ REGION=${SETTING#\'}
+ REGION=${REGION%\'}
+

@@ -1,0 +1,3 @@
+usr/share/locale
+debian/55gnome-session_gnomerc etc/X11/Xsession.d
+debian/gnome-mimeapps.list usr/share/applications/
