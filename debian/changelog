@@ -1,3 +1,9 @@
+gnome-session (3.20.2-1blankon1) uluwatu; urgency=medium
+
+  * Move to uluwatu
+
+ -- Herpiko Dwi Aguno <herpiko@gmail.com> Fri, 01 Aug 2017 23:41:45 +0700
+
 gnome-session (3.20.2-1blankon1) tambora; urgency=medium
 
   * New upstream release
