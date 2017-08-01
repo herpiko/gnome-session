@@ -32,7 +32,7 @@ Build-Depends: dh-autoreconf,
                xmlto,
                xsltproc,
                xtrans-dev,
-               libsystemd-dev (>= 209) [any]
+               libsystemd-dev
 Vcs-Svn: svn://anonscm.debian.org/pkg-gnome/desktop/unstable/gnome-session
 Vcs-Browser: https://anonscm.debian.org/viewvc/pkg-gnome/desktop/unstable/gnome-session
 
